@@ -1,0 +1,137 @@
+using System;
+
+namespace CodeInterview
+{
+	//	73. Set Matrix Zeroes
+	//Medium
+
+	//8314
+
+	//524
+
+	//Add to List
+
+	//Share
+	//Given an m x n integer matrix matrix, if an element is 0, set its entire row and column to 0's.
+
+	//You must do it in place.
+
+
+
+	//Example 1:
+
+
+	//Input: matrix = [[1,1,1],[1,0,1],[1,1,1]]
+	//Output: [[1,0,1],[0,0,0],[1,0,1]]
+
+
+
+	class Problem
+	{
+
+		public void SetZeroes(int[][] matrix)
+		{
+
+			this.print(matrix);
+
+			int row = matrix.Length;
+			int column = matrix[0].Length;
+
+			bool isFirstRowZero = false;
+			bool isFirstColumnZero = false;
+
+
+			for (int i = 0; i < row; i++)
+			{
+				if (matrix[i][0] == 0)
+				{
+					isFirstColumnZero = true;
+					break;
+				}
+			}
+			for (int j = 0; j < row; j++)
+			{
+				if (matrix[0][j] == 0)
+				{
+					isFirstRowZero = true;
+					break;
+				}
+			}
+
+			for (int i = 1; i < row; i++)
+				for (int j = 1; j < column; j++)
+				{
+					if (matrix[i][j] == 0)
+					{
+						matrix[i][0] = 0;
+						matrix[0][j] = 0;
+					}
+				}
+
+			for (int i = 1; i < row; i++)
+				for (int j = 1; j < column; j++)
+				{
+					if (matrix[i][0] == 0 || matrix[0][j] == 0)
+					{
+						matrix[i][j] = 0;
+					}
+				}
+
+			if (isFirstRowZero)
+			{
+				for (int i = 0; i < column; i++)
+				{
+					matrix[0][i] = 0;
+
+				}
+			}
+
+
+			if (isFirstColumnZero)
+			{
+				for (int i = 0; i < row; i++)
+				{
+					matrix[i][0] = 0;
+
+				}
+			}
+
+			this.print(matrix);
+		}
+		private void print(int[][] matrix)
+		{
+			foreach (int[] arr in matrix)
+			{
+
+				Console.WriteLine();
+				foreach (int num in arr)
+				{
+					Console.Write(num + " ");
+				}
+
+
+			}
+			Console.WriteLine();
+		}
+	}
+
+
+	class Program
+	{
+		static void Main(string[] args)
+		{
+
+
+			Problem prob = new Problem();
+
+			prob.SetZeroes(new int[][] { new int[] { 1, 0, 1 }, new int[] { 1, 1, 1 }, new int[] { 1, 1, 1 } });
+
+
+
+
+
+
+		}
+	}
+
+}

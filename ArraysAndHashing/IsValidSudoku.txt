@@ -1,0 +1,95 @@
+using System;
+using System.Collections.Generic;
+
+namespace CodeInterview
+{
+
+	//	Determine if a 9 x 9 Sudoku board is valid.Only the filled cells need to be validated according to the following rules:
+
+	//Each row must contain the digits 1-9 without repetition.
+	//Each column must contain the digits 1-9 without repetition.
+	//Each of the nine 3 x 3 sub-boxes of the grid must contain the digits 1-9 without repetition.
+	//Note:
+
+	//A Sudoku board (partially filled) could be valid but is not necessarily solvable.
+	//Only the filled cells need to be validated according to the mentioned rules.
+	class Problem
+	{
+
+
+		//Solution
+		// iterate through entire matrix and add elements to hashset as unique element
+		//then check if it exists, return false if it does, add it if it does not.
+
+
+		public bool IsValidSudoku(char[][] board)
+		{
+			HashSet<string> hash = new HashSet<string>();
+
+			for (int i = 0; i < 9; i++)
+				for (int j = 0; j < 9; j++)
+				{
+					if (board[i][j] != '.')
+					{
+						//check if row/col contains duplicate elements
+						if (hash.Contains("row" + i + board[i][j]) || hash.Contains("col" + j + board[i][j]))
+							return false;
+
+						hash.Add("row" + i + board[i][j]);
+						hash.Add("col" + j + board[i][j]);
+
+						//check whether box contains duplicate elements
+
+						if (hash.Contains("box" + (i / 3) * 3 + j / 3 + board[i][j]))
+							return false;
+
+						hash.Add("box" + (i / 3) * 3 + j / 3 + board[i][j]);
+					}
+				}
+
+			foreach (string s in hash)
+			{
+				if (s.StartsWith("box"))
+					Console.WriteLine(s);
+			}
+
+			return true;
+		}
+
+
+
+	}
+
+
+
+
+
+
+	class Program
+	{
+		static void Main(string[] args)
+		{
+
+
+
+			Problem problem = new Problem();
+
+			Console.WriteLine(problem.IsValidSudoku(new char[][] {
+				new char[]{ '5', '3', '.', '.', '7', '.', '.', '.','.' },
+				new char[]{'6', '.', '.', '1', '9', '5', '.', '.', '.' },
+				new char[]{'.', '9', '8', '.', '.', '.', '.', '6', '.' },
+				new char[]{ '8', '.', '.', '.', '6', '.', '.', '.', '3'},
+				new char[]{'4', '.', '.', '8', '.', '3', '.', '.', '1' },
+				new char[]{'7', '.', '.', '.', '2', '.', '.', '.', '6' },
+				new char[]{'.', '6', '.', '.', '.', '.', '2', '8', '.' },
+				new char[]{'.', '.', '.', '4', '1', '9', '.', '.', '5' },
+				new char[]{'.', '2', '.', '.', '8', '.', '.', '7', '9' } }
+	));
+
+
+
+
+
+		}
+	}
+}

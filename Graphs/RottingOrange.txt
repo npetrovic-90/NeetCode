@@ -1,0 +1,113 @@
+using System.Collections.Generic;
+
+namespace CodeInterview
+{
+
+	//	994. Rotting Oranges
+	//Medium
+
+	//7642
+
+	//293
+
+	//Add to List
+
+	//Share
+	//You are given an m x n grid where each cell can have one of three values:
+
+	//0 representing an empty cell,
+	//1 representing a fresh orange, or
+	//2 representing a rotten orange.
+	//Every minute, any fresh orange that is 4-directionally adjacent to a rotten orange becomes rotten.
+
+	//Return the minimum number of minutes that must elapse until no cell has a fresh orange. If this is impossible, return -1.
+
+
+
+
+	//Example 1:
+
+
+	//Input: grid = [[2, 1, 1], [1,1,0], [0,1,1]]
+	//Output: 4
+
+	class Problem
+	{
+		int[][] dirs = new int[][] {
+		new int[]{1,0},
+		new int[]{-1,0},
+		new int[]{0,1},
+		new int[]{0,-1},
+		};
+		public int OrangesRotting(int[][] grid)
+		{
+			int rows = grid.Length;
+			int cols = grid[0].Length;
+			int count = 0;
+			int fresh = 0;
+
+			Queue<int[]> queue = new Queue<int[]>();
+			for (int i = 0; i < rows; i++)
+				for (int j = 0; j < cols; j++)
+				{
+					if (grid[i][j] == 2) queue.Enqueue(new int[] { i, j });
+					else if (grid[i][j] == 1) fresh++;
+				}
+
+			//bfs approach
+
+			while (queue.Count > 0 && fresh > 0)
+			{
+				count++;
+				int queue_size = queue.Count;
+
+				while (queue_size > 0)
+				{
+
+					int[] rotten = queue.Dequeue();
+					queue_size--;
+					int i = rotten[0];
+					int j = rotten[1];
+
+					foreach (int[] dir in dirs)
+					{
+						int x = i + dir[0];
+						int y = j + dir[1];
+
+						if (x >= 0 && y >= 0 && x < rows && y < cols && grid[x][y] == 1)
+						{
+							grid[x][y] = 2;
+							queue.Enqueue(new int[] { x, y });
+							fresh--;
+
+						}
+					}
+				}
+			}
+
+			return fresh == 0 ? count : -1;
+		}
+	}
+
+
+	class Program
+	{
+		static void Main(string[] args)
+		{
+
+			Problem problem = new Problem();
+
+			int result = problem.OrangesRotting(new int[][]{
+				new int[] { 2, 1, 1 },
+				new int[] { 1,1, 0 },
+				new int[] { 0, 1, 1 }
+
+
+			});
+
+
+
+
+		}
+	}
+}

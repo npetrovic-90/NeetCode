@@ -1,0 +1,84 @@
+using System;
+
+namespace CodeInterview
+{
+
+	//	Given an integer array nums, return an array answer such that answer[i] is equal to the product of all the elements of nums except nums[i].
+
+	//The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer.
+
+	//You must write an algorithm that runs in O(n) time and without using the division operation.
+
+
+
+	//Example 1:
+
+	//Input: nums = [1, 2, 3, 4]
+	//Output: [24,12,8,6]
+	class Problem
+	{
+
+
+		//Solution
+		// we iterate 2 times, once from beginning of an array, once from the end
+		// when we interate from beginning we multiply each number with prefix which is 1
+		// and store it as result, then we increase prefix by that number.
+
+		//same when we iterate from the end, but we also multiply result by itself.
+
+
+		public int[] ProductExceptSelf(int[] nums)
+		{
+			int n = nums.Length;
+			int[] result = new int[n];
+
+			int prefix = 1;
+
+			for (int i = 0; i < nums.Length; i++)
+			{
+				result[i] = prefix;
+				prefix = prefix * nums[i];
+			}
+
+			int postfix = 1;
+
+			for (int i = nums.Length - 1; i >= 0; i--)
+			{
+				result[i] = result[i] * postfix;
+				postfix = postfix * nums[i];
+
+			}
+
+			return result;
+		}
+
+
+
+	}
+
+
+
+
+
+
+	class Program
+	{
+		static void Main(string[] args)
+		{
+
+
+
+			Problem problem = new Problem();
+
+			int[] result = problem.ProductExceptSelf(new int[] { 5, 2, 3, 4 });
+
+			Console.Write("[");
+			foreach (int num in result)
+				Console.Write(num + ",");
+			Console.Write("]");
+
+
+
+		}
+	}
+}

@@ -1,0 +1,105 @@
+using System;
+using System.Collections.Generic;
+
+namespace CodeInterview
+{
+	//	131. Palindrome Partitioning
+	//Medium
+
+	//7666
+
+	//236
+
+	//Add to List
+
+	//Share
+	//Given a string s, partition s such that every substring of the partition is a palindrome.Return all possible palindrome partitioning of s.
+
+	//A palindrome string is a string that reads the same backward as forward.
+
+
+
+
+
+
+
+	class Problem
+	{
+		public List<List<string>> partition(string s)
+		{
+			List<List<string>> result = new List<List<string>>();
+			List<string> list = new List<string>();
+
+			dfs(result, list, s, 0);
+
+			return result;
+		}
+
+		private void dfs(List<List<string>> result, List<string> list, string s, int start)
+		{
+			if (start == s.Length)
+			{
+				result.Add(new List<string>(list));
+				return;
+			}
+
+			for (int i = start; i < s.Length; i++)
+			{
+				if (isPalindrome(s, start, i))
+				{
+					string str = s.Substring(start, i - start + 1);
+					list.Add(str);
+					dfs(result, list, s, i + 1);
+					list.RemoveAt(list.Count - 1);
+				}
+			}
+		}
+
+		private bool isPalindrome(string s, int left, int right)
+		{
+			while (left < right)
+			{
+				if (s[left] != s[right])
+					return false;
+
+				left++;
+				right--;
+			}
+			return true;
+		}
+
+
+	}
+
+
+
+
+
+	class Program
+	{
+		static void Main(string[] args)
+		{
+
+
+			Problem prob = new Problem();
+
+			List<List<string>> result = prob.partition("aab");
+
+			foreach (List<string> list in result)
+			{
+				Console.Write("[");
+				foreach (string num in list)
+					Console.Write("\"" + num + "\"");
+				Console.Write("]\n");
+			}
+
+
+
+
+
+
+
+
+		}
+	}
+}

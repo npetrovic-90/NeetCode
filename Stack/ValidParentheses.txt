@@ -1,0 +1,82 @@
+using System;
+using System.Collections.Generic;
+
+namespace CodeInterview
+{
+
+	//	Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
+
+	//An input string is valid if:
+
+	//Open brackets must be closed by the same type of brackets.
+	//Open brackets must be closed in the correct order.
+
+
+	//Example 1:
+
+	//Input: s = "()"
+	//Output: true
+	class Problem
+	{
+
+
+		//Solution
+		//fill hashmap with valid symbols, iterate through a string of characters and if they aint in a hashmap
+		//push them onto stack, if they are take top stack character and compare to the character value, if they are the same
+		//pop them from stack
+
+
+
+
+
+		public bool isValid(String s)
+		{
+
+			Dictionary<char, char> dict = new Dictionary<char, char>();
+
+			Stack<char> stack = new Stack<char>();
+
+			dict.Add(')', '(');
+			dict.Add(']', '[');
+			dict.Add('}', '{');
+
+			foreach (char symbol in s)
+			{
+				if (dict.ContainsKey(symbol))
+				{
+					if (stack.Count != 0 && stack.Peek() == dict[symbol])
+					{
+						stack.Pop();
+					}
+					else return false;
+				}
+				else
+				{
+					stack.Push(symbol);
+				}
+			}
+
+
+			if (stack.Count == 0) return true;
+			return false;
+
+		}
+
+	}
+
+
+	class Program
+	{
+		static void Main(string[] args)
+		{
+
+
+
+			Problem problem = new Problem();
+			Console.WriteLine(problem.isValid("((()"));
+
+
+
+		}
+	}
+}

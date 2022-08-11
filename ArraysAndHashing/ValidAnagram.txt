@@ -1,0 +1,91 @@
+using System;
+using System.Collections.Generic;
+
+namespace CodeInterview
+{
+
+	//	Given two strings s and t, return true if t is an anagram of s, and false otherwise.
+
+	//An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
+
+
+
+	//Example 1:
+
+	//Input: s = "anagram", t = "nagaram"
+	//Output: true
+	class Problem
+	{
+
+
+		//Solution
+		//iterate through first string and add all of its elements to hashmap/dictionary, if they already are , increment number of them by1
+		//iterate through second string and compare it to hashmap, if char is contained in  hashmap reduce value by 1 and ask if it is 0,
+		//if it is remove it
+		//if char does not exist in hash map return false
+
+
+		public bool isAnagram(string s, string t)
+		{
+			if (s.Equals(t)) return true;
+
+			if (s.Length != t.Length) return false;
+
+			Dictionary<char, int> dict = new Dictionary<char, int>();
+
+			for (int i = 0; i < s.Length; i++)
+			{
+				if (dict.ContainsKey(s[i])) dict[s[i]]++;
+
+				else dict.Add(s[i], 1);
+			}
+
+			for (int i = 0; i < t.Length; i++)
+			{
+
+				if (dict.ContainsKey(t[i]) && dict[t[i]] > 0)
+				{
+
+					dict[t[i]]--;
+					if (dict[t[i]] == 0) dict.Remove(t[i]);
+				}
+
+				else if (!dict.ContainsKey(t[i])) return false;
+
+
+			}
+
+
+
+
+
+
+			if (dict.Count == 0) return true;
+
+
+			return false;
+
+		}
+
+
+	}
+
+
+
+	class Program
+	{
+		static void Main(string[] args)
+		{
+
+
+
+			Problem problem = new Problem();
+
+			Console.WriteLine(problem.isAnagram("asnagrsam", "nagaramss"));
+
+
+
+
+		}
+	}
+}

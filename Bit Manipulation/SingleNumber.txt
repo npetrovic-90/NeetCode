@@ -1,0 +1,50 @@
+using System;
+
+namespace CodeInterview
+{
+
+	//Single Number
+	//Given a non-empty array of integers nums, every element appears twice except for one.Find that single one.
+	//You must implement a solution with a linear runtime complexity and use only constant extra space.
+
+	//Example 1:
+	//Input: nums = [2, 2, 1]
+	//Output: 1
+	class Problem
+	{
+
+
+		//Solution
+		//using XOR we are basically adding numbers to one another, but if we already add number to another number
+		//lets say we 4 is first number and we add 1 to it, we get 5, but if we add 1 again we will get 4 again
+		//so duplicate numbers will cancel each other out
+		//and because we know there is only one unique number, XOR all other numbers to that number will gives us that unique number
+		public int SingleNumberXOR(int[] nums)
+		{
+			int x1 = nums[0];
+
+			for (int i = 1; i < nums.Length; i++)
+			{
+				Console.WriteLine("X1:" + x1 + " Num[i]:" + nums[i]);
+				x1 = x1 ^ nums[i];
+
+			}
+
+			return x1;
+		}
+
+	}
+	class Program
+	{
+		static void Main(string[] args)
+		{
+			Problem problem = new Problem();
+
+			int[] nums = new int[] { 4, 1, 1, 2, 2 };
+
+			Console.WriteLine(problem.SingleNumberXOR(nums));
+
+
+		}
+	}
+}

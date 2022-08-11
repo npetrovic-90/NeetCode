@@ -1,0 +1,62 @@
+using System;
+
+namespace CodeInterview
+{
+
+	//Given two integers a and b, return the sum of the two integers without using the operators + and -.
+
+
+
+	//Example 1:
+
+	//Input: a = 1, b = 2
+	//Output: 3
+	class Problem
+	{
+
+
+		//Solution
+		//XOR to add numbers, but XOR doesnt takes into account carry when summing 1 and 1.
+		//so we need to AND them and shift by 1 to the right.
+
+
+		public int getSum(int x, int y)
+		{
+
+			while (y != 0)
+			{
+				int tmp = (x & y) << 1;
+
+				x = x ^ y;
+
+				y = tmp;
+			}
+
+
+			return x;
+
+
+		}
+
+
+	}
+
+
+
+	class Program
+	{
+		static void Main(string[] args)
+		{
+
+
+
+			Problem problem = new Problem();
+
+			Console.WriteLine(problem.getSum(2, 3));
+
+
+
+
+		}
+	}
+}

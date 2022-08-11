@@ -1,0 +1,121 @@
+using System;
+
+namespace CodeInterview
+{
+
+	//	Given two sorted arrays nums1 and nums2 of size m and n respectively, return the median of the two sorted arrays.
+
+	//The overall run time complexity should be O(log (m+n)).
+
+
+
+	//Example 1:
+
+	//Input: nums1 = [1,3], nums2 = [2]
+	//	Output: 2.00000
+	//Explanation: merged array = [1, 2, 3] and median is 2.
+	//Example 2:
+
+	//Input: nums1 = [1,2], nums2 = [3,4]
+	//	Output: 2.50000
+	//Explanation: merged array = [1, 2, 3, 4] and median is (2 + 3) / 2 = 2.5.
+
+
+	class Problem
+	{
+		public double FindMedianSortedArrays(int[] nums1, int[] nums2)
+		{
+
+			int total = nums1.Length + nums2.Length;
+			int half = total / 2;
+
+
+			if (nums1.Length >= nums2.Length)
+			{
+				int[] tmp = nums1;
+				nums1 = nums2;
+				nums2 = tmp;
+			}
+
+			int left = 0;
+			int right = nums1.Length - 1;
+
+			//left and right of the first array
+			int Num1left;
+			int Num1right;
+			//left and right of the second array
+			int Num2left;
+			int Num2right;
+
+			while (true)
+			{
+				int i = (left + right) / 2;//first array nums1
+				int j = half - i - 2; // second array nums2
+
+				//partitioning
+				if (i >= 0)
+					Num1left = nums1[i];
+				else break;
+
+				if (i + 1 < nums1.Length)
+					Num1right = nums1[i + 1];
+				else break;
+
+				if (j >= 0)
+					Num2left = nums2[j];
+				else break;
+
+				if (j < nums2.Length)
+					Num2right = nums1[j + 1];
+				else break;
+
+				//if partitioning is correct
+				if (Num1left <= Num2right && Num2left <= Num1right)
+				{
+					if (total % 2 == 1) return Math.Min(Num1right, Num2right);
+
+					return (Math.Max(Num1left, Num2left) + Math.Min(Num1right, Num2right)) / 2;
+				}
+				else if (Num1left < Num2right)
+				{
+					left = i + 1;
+				}
+				else
+					right = i - 1;
+
+			}
+			return 0.0;
+
+
+
+
+		}
+
+		//Solution
+		//varition of binary search
+
+
+
+
+
+	}
+
+
+	class Program
+	{
+		static void Main(string[] args)
+		{
+
+			Problem problem = new Problem();
+
+
+			Console.WriteLine(problem.FindMedianSortedArrays(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 3, 4, 5, 6, 7 }));
+
+
+			Console.WriteLine();
+
+
+
+		}
+	}
+}

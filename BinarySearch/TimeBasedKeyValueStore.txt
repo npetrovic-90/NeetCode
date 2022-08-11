@@ -1,0 +1,134 @@
+using System;
+using System.Collections.Generic;
+
+namespace CodeInterview
+{
+
+	//	981. Time Based Key-Value Store
+	//Medium
+
+	//2153
+
+	//223
+
+	//Add to List
+
+	//Share
+	//Design a time-based key-value data structure that can store multiple values for the same key at different time stamps and retrieve the key's value at a certain timestamp.
+
+	//Implement the TimeMap class:
+
+	//TimeMap() Initializes the object of the data structure.
+	//void set(String key, String value, int timestamp) Stores the key key with the value value at the given time timestamp.
+	//String get(String key, int timestamp) Returns a value such that set was called previously, with timestamp_prev <= timestamp.If there are multiple such values, it returns the value associated with the largest timestamp_prev.If there are no values, it returns "".
+
+
+
+	//Example 1:
+
+	//Input
+	//["TimeMap", "set", "get", "get", "set", "get", "get"]
+	//[[], ["foo", "bar", 1], ["foo", 1], ["foo", 3], ["foo", "bar2", 4], ["foo", 4], ["foo", 5]].
+
+	class Pair
+	{
+		public string value;
+		public int time;
+
+		public Pair(string value, int time)
+		{
+			this.value = value;
+			this.time = time;
+
+		}
+
+	}
+
+	public class TimeBasedMap
+	{
+		Dictionary<string, List<Pair>> timeMap = new Dictionary<string, List<Pair>>();
+
+		public TimeBasedMap()
+		{
+			timeMap = new Dictionary<string, List<Pair>>();
+		}
+		public void set(string key, string value, int timestamp)
+		{
+			if (!timeMap.ContainsKey(key))
+			{
+				timeMap.Add(key, new List<Pair>());
+			}
+
+			timeMap[key].Add(new Pair(value, timestamp));
+		}
+
+		public string get(string key, int timestamp)
+		{
+			List<Pair> values = timeMap[key];
+			string result = "";
+
+			int left = 0;
+			int right = values.Count - 1;
+
+			while (left <= right)
+			{
+				int mid = (left + right) / 2;
+				if (values[mid].time == timestamp)
+				{
+					result = values[mid].value;
+					return result;
+				}
+				else if (values[mid].time < timestamp)
+				{
+					result = values[mid].value;
+					left = mid + 1;
+				}
+				else
+				{
+					right = mid - 1;
+				}
+			}
+
+			return result;
+		}
+
+
+	}
+
+	class Problem
+	{
+
+
+		//Solution
+		//varition of binary search
+
+
+
+
+
+	}
+
+
+	class Program
+	{
+		static void Main(string[] args)
+		{
+
+			TimeBasedMap map = new TimeBasedMap();
+			map.set("foo", "bar", 1);
+			Console.Write(map.get("foo", 1));
+			Console.Write(map.get("foo", 3));
+			map.set("foo", "bar2", 4);
+			Console.Write(map.get("foo", 4));
+			Console.Write(map.get("foo", 5));
+
+			Problem problem = new Problem();
+
+
+			Console.WriteLine();
+
+
+
+		}
+	}
+}

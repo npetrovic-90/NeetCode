@@ -1,0 +1,286 @@
+using System;
+using System.Collections.Generic;
+
+namespace CodeInterview
+{
+	//	
+
+
+	class Problem
+	{
+
+	}
+	public class Node
+	{
+		public int value;
+		public Node left;
+		public Node right;
+
+		public Node(int value)
+		{
+			this.value = value;
+			left = null;
+			right = null;
+		}
+	}
+
+	public class BTree
+	{
+		private Node root;
+
+		public BTree()
+		{
+			root = null;
+		}
+
+		public Node getRoot()
+		{
+			return root;
+		}
+		public void setRoot(Node root)
+		{
+			this.root = root;
+		}
+
+		//binary search tree insert
+		public void insert(int value)
+		{
+			root = insertRec(root, value);
+		}
+
+		private Node insertRec(Node root, int value)
+		{
+			Node curr = root;
+			if (curr == null)
+			{
+				curr = new Node(value);
+
+				return curr;
+			}
+			else
+			{
+				if (curr.value >= value)
+				{
+					curr.left = insertRec(curr.left, value);
+				}
+				else
+				{
+					curr.right = insertRec(curr.right, value);
+				}
+			}
+
+			return curr;
+		}
+
+		//inorder traversal
+
+		public void inorder(Node root)
+		{
+			Node curr = root;
+
+			if (curr != null)
+			{
+				inorder(curr.left);
+				Console.Write(curr.value + " ");
+				inorder(curr.right);
+
+			}
+		}
+
+		//preorder
+		public void preorder(Node root)
+		{
+			Node curr = root;
+
+			if (curr != null)
+			{
+				Console.Write(curr.value + " ");
+				preorder(curr.left);
+
+				preorder(curr.right);
+
+			}
+		}
+		//postorder
+		public void postorder(Node root)
+		{
+			Node curr = root;
+
+			if (curr != null)
+			{
+
+				postorder(curr.left);
+
+				postorder(curr.right);
+				Console.Write(curr.value + " ");
+
+			}
+		}
+		//		Given the root of a binary tree, return its maximum depth.
+
+		//A binary tree's maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.
+
+
+
+		//Example 1:
+
+
+		//Input: root = [3,9,20,null,null,15,7]
+		//		Output: 3
+		//height of binary tree
+
+		public int getHeight(Node root)
+		{
+			Node curr = root;
+			if (curr == null) return 0;
+
+			return 1 + Math.Max(getHeight(curr.left), getHeight(curr.right));
+		}
+
+		//inorder iterative
+
+		public void inorderIterative(Node root)
+		{
+			if (root == null) return;
+
+			Node curr = root;
+
+			Stack<Node> stack = new Stack<Node>();
+
+			while (curr != null || stack.Count > 0)
+			{
+				while (curr != null)
+				{
+					stack.Push(curr);
+					curr = curr.left;
+				}
+
+				curr = stack.Pop();
+				Console.Write(curr.value + " ");
+				//k=k-1
+				//if(k==0) return curr.value;
+				curr = curr.right;
+			}
+		}
+
+		//count nodes in bstree or normal binary tree
+
+		public int countNodes(Node root, int i = 0)
+		{
+			if (root == null) return i;
+			i++;
+			i = countNodes(root.left, i);
+			i = countNodes(root.right, i);
+
+			return i;
+		}
+
+		public int findMaximum(Node root, int max)
+		{
+
+			if (root == null) return max;
+
+			if (root.value > max) max = root.value;
+
+			max = findMaximum(root.left, max);
+			max = findMaximum(root.right, max);
+
+			return max;
+		}
+
+
+		//		5. Construct Binary Tree from Preorder and Inorder Traversal
+		//Medium
+
+		//8754
+
+		//240
+
+		//Add to List
+
+		//Share
+		//Given two integer arrays preorder and inorder where preorder is the preorder traversal of a binary tree and inorder is the inorder traversal of the same tree, construct and return the binary tree.
+
+
+
+		//Example 1:
+
+
+		//Input: preorder = [3,9,20,15,7], inorder = [9,3,15,20,7]
+		//		Output: [3,9,20,null,null,15,7]
+
+		public Node BuildTree(int[] preorder, int[] inorder)
+		{
+			List<int> preorder_list = new List<int>();
+			List<int> inorder_list = new List<int>();
+
+			foreach (int n in preorder)
+				preorder_list.Add(n);
+
+			foreach (int n in inorder)
+				inorder_list.Add(n);
+
+
+
+			if (preorder_list.Count == 0 || inorder_list.Count == 0) return null;
+
+			Node root = new Node(preorder_list[0]);
+
+			int mid = inorder_list.IndexOf(preorder_list[0]);
+
+
+
+
+			root.left = BuildTree(preorder_list.GetRange(mid, preorder_list.Count - mid).GetRange(0, mid).ToArray(), inorder_list.GetRange(0, mid).ToArray());
+			root.right = BuildTree(preorder_list.GetRange(mid + 1, preorder_list.Count - mid - 1).ToArray(), inorder_list.GetRange(mid + 1, inorder_list.Count - mid - 1).ToArray());
+
+
+
+
+
+
+
+			return root;
+
+
+
+
+		}
+
+	}
+
+	class Program
+	{
+		static void Main(string[] args)
+		{
+
+			BTree bTree = new BTree();
+			BTree bTree2 = new BTree();
+
+			//bTree.setRoot(new Node(1));
+			//bTree.getRoot().left = new Node(41);
+			//bTree.getRoot().right = new Node(21);
+			//bTree.getRoot().left.left = new Node(422);
+			//bTree.getRoot().left.right = new Node(131);
+			//bTree.getRoot().right.left = new Node(81);
+			//bTree.getRoot().right.right = new Node(67);
+
+
+
+
+
+			//bTree.inorder(bTree.getRoot());
+			Console.WriteLine();
+			bTree.setRoot(bTree.BuildTree(new int[] { 3, 9, 20, 15, 7 }, new int[] { 9, 3, 15, 20, 7 }));
+
+			bTree.preorder(bTree.getRoot());
+			Console.WriteLine();
+			bTree.inorder(bTree.getRoot());
+
+
+
+
+
+		}
+	}
+}

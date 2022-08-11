@@ -1,0 +1,96 @@
+using System;
+using System.Collections.Generic;
+
+namespace CodeInterview
+{
+
+	//	Given an array of strings strs, group the anagrams together.You can return the answer in any order.
+
+	//An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
+
+
+
+	//Example 1:
+
+	//Input: strs = ["eat","tea","tan","ate","nat","bat"]
+	//	Output: [["bat"],["nat","tan"],["ate","eat","tea"]]
+	class Problem
+	{
+
+
+		//Solution
+		//using hashmap where key will actually be string of unique anagram characters of each string and value will be list of strings
+		//
+
+
+		public List<List<string>> groupAnagrams(string[] strs)
+		{
+			List<List<string>> result = new List<List<string>>();
+
+			if (strs.Length == 0) return result;
+
+			Dictionary<string, List<string>> dict = new Dictionary<string, List<string>>();
+
+			foreach (string s in strs)
+			{
+				char[] hash = new char[26];
+
+				foreach (char c in s.ToCharArray())
+					hash[c - 'a']++;
+
+				string str = new String(hash);
+
+
+				if (!dict.ContainsKey(str))
+				{
+					dict.Add(str, new List<string>());
+				}
+				dict[str].Add(s);
+
+			}
+
+			foreach (KeyValuePair<string, List<string>> item in dict)
+				result.Add(item.Value);
+
+
+
+
+			return result;
+
+		}
+
+
+
+	}
+
+
+
+
+
+
+	class Program
+	{
+		static void Main(string[] args)
+		{
+
+
+
+			Problem problem = new Problem();
+
+			List<List<string>> result = problem.groupAnagrams(new string[] { "eat", "tea", "tan", "ate", "nat", "bat" });
+
+			Console.Write("[");
+			foreach (List<string> strs in result)
+			{
+				Console.Write("[");
+				foreach (string anagram in strs)
+					Console.Write(anagram + " ");
+				Console.Write("]");
+			}
+			Console.Write("]");
+
+
+
+		}
+	}
+}

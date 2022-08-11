@@ -1,0 +1,111 @@
+using System;
+using System.Collections.Generic;
+
+namespace CodeInterview
+{
+
+	//	Given two strings s and t of lengths m and n respectively, return the minimum window substring of s such that every character in t(including duplicates) is included in the window.If there is no such substring, return the empty string "".
+
+
+	//The testcases will be generated such that the answer is unique.
+
+	//A substring is a contiguous sequence of characters within the string.
+
+
+
+
+	//Example 1:
+
+
+	//Input: s = "ADOBECODEBANC", t = "ABC"
+	//Output: "BANC"
+	//Explanation: The minimum window substring "BANC" includes 'A', 'B', and 'C' from string t.
+	class Problem
+	{
+
+
+		//Solution
+		//Add pattern to a hashmap, iterate through a string we wanna match, if it already exist increment value by 1
+		//for each character of a string ask if it exist in hashmap, if it does reduce its value by one and ask
+		//if said value reached zero, if it did increment matched by 1
+		//if matched == hashmap.size that means we have all of our pattern characters in string window, so we must move left pointer
+
+
+
+
+
+		public string minWindow(string str, string pattern)
+		{
+			Dictionary<char, int> dict = new Dictionary<char, int>();
+
+			for (int i = 0; i < pattern.Length; i++)
+			{
+				if (dict.ContainsKey(pattern[i])) dict[pattern[i]]++;
+
+				else dict.Add(pattern[i], 1);
+			}
+
+			int matched = 0;
+
+			int minLength = str.Length + 1;
+			int windowStart = 0;
+			int subStr = 0;
+
+			for (int windowEnd = 0; windowEnd < str.Length; windowEnd++)
+			{
+				char end = str[windowEnd];
+
+				if (dict.ContainsKey(end))
+				{
+					dict[end]--;
+					if (dict[end] == 0) matched++;
+				}
+
+				while (matched == dict.Count)
+				{
+					if (minLength > windowEnd - windowStart + 1)
+					{
+						minLength = windowEnd - windowStart + 1;
+						subStr = windowStart;
+					}
+					char start = str[windowStart++];
+
+					if (dict.ContainsKey(start))
+					{
+						if (dict[start] == 0) matched--;
+						dict[start]++;
+
+					}
+
+
+				}
+			}
+
+
+			return minLength > str.Length ? "" : str.Substring(subStr, minLength);
+
+		}
+
+
+
+
+
+	}
+
+
+	class Program
+	{
+		static void Main(string[] args)
+		{
+
+
+
+			Problem problem = new Problem();
+
+			Console.WriteLine(problem.minWindow("ADOBECODEBANC", "ABC"));
+
+
+
+		}
+	}
+}

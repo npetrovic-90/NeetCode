@@ -1,0 +1,62 @@
+using System;
+
+namespace CodeInterview
+{
+
+	//	Given an array nums containing n distinct numbers in the range[0, n], return the only number in the range that is missing from the array.
+
+
+
+	//Example 1:
+
+	//Input: nums = [3, 0, 1]
+	//Output: 2
+	//Explanation: n = 3 since there are 3 numbers, so all numbers are in the range [0,3]. 2 is the missing number in the range since it does not appear in nums.
+	class Problem
+	{
+
+
+		//Solution
+		//Just sum of XOR of all numbers from initial array that is given
+		//then do same thing with, XOR of result from previous XOR and range from 0 to n
+		// can also be solved by using gauss equation x=n*(n+1)/2;
+
+		public int MissingNumbers(int[] nums, int range)
+		{
+			int result = nums[0];
+
+			for (int i = 1; i < nums.Length; i++)
+			{
+				result = result ^ nums[i];
+			}
+
+			for (int i = 0; i <= range; i++)
+				result = result ^ i;
+
+			return result;
+
+
+		}
+
+
+	}
+
+
+
+	class Program
+	{
+		static void Main(string[] args)
+		{
+
+
+
+			Problem problem = new Problem();
+
+			Console.WriteLine(problem.MissingNumbers(new[] { 3, 0, 1 }, 3));
+
+
+
+
+		}
+	}
+}

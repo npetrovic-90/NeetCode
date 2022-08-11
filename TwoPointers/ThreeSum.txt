@@ -1,0 +1,119 @@
+using System;
+using System.Collections.Generic;
+
+namespace CodeInterview
+{
+
+	//	Given an integer array nums, return all the triplets[nums[i], nums[j], nums[k]] such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.
+
+	//Notice that the solution set must not contain duplicate triplets.
+
+
+
+	//Example 1:
+
+	//Input: nums = [-1, 0, 1, 2, -1, -4]
+	//Output: [[-1,-1,2], [-1,0,1]]
+	class Problem
+	{
+
+
+		//Solution
+		// sort numbers first then apply 2 sum solution, 2 pointers left and right , sum them and compare to target, left pointer
+		// will start from left+1 because first element will be first element of three sum, then iterate to add 2 more, left and right one.
+
+
+
+		public List<List<int>> ThreeSum(int[] numbers)
+		{
+			List<List<int>> result = new List<List<int>>();
+
+			//sort
+
+
+			for (int i = 0; i < numbers.Length - 2; i++)
+			{
+				if (i == 0 || (i > 0 && numbers[i] != numbers[i - 1]))
+				{
+					int target = 0 - numbers[i];
+					int left = i + 1;
+					int right = numbers.Length - 1;
+
+					while (left < right)
+					{
+						if (numbers[left] + numbers[right] == target)
+						{
+							List<int> miniResult = new List<int>();
+							miniResult.Add(numbers[i]);
+							miniResult.Add(numbers[left]);
+							miniResult.Add(numbers[right]);
+
+							result.Add(miniResult);
+
+							while (left < right && numbers[left] == numbers[left + 1]) left++;
+							while (left < right && numbers[right] == numbers[right - 1]) right--;
+
+							left++;
+							right--;
+
+						}
+						else if (numbers[left] + numbers[right] > target) right--;
+
+						else left++;
+
+
+					}
+				}
+			}
+
+
+			return result;
+
+		}
+
+
+
+
+
+	}
+
+
+
+
+
+
+	class Program
+	{
+		static void Main(string[] args)
+		{
+
+
+
+			Problem problem = new Problem();
+
+			List<List<int>> result = problem.ThreeSum(new int[] { -4, -1, -1, 0, 1, 2 });
+
+
+			foreach (List<int> list in result)
+			{
+				Console.Write("[");
+
+				foreach (int number in list)
+					Console.Write(number + ",");
+
+				Console.Write("]");
+
+			}
+
+
+
+
+
+
+
+
+
+
+		}
+	}
+}

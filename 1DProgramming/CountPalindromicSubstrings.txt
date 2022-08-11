@@ -1,0 +1,75 @@
+using System;
+
+namespace CodeInterview
+{
+
+	//	647. Palindromic Substrings
+	//Medium
+
+	//7672
+
+	//169
+
+	//Add to List
+
+	//Share
+	//Given a string s, return the number of palindromic substrings in it.
+
+	//A string is a palindrome when it reads the same backward as forward.
+
+	//A substring is a contiguous sequence of characters within the string.
+
+
+
+	//Example 1:
+
+	//Input: s = "abc"
+	//Output: 3
+	//Explanation: Three palindromic strings: "a", "b", "c".
+	class Problem
+	{
+		public int CountSubstrings(string s)
+		{
+
+			int result = 0;
+
+			for (int i = 0; i < s.Length; i++)
+			{
+				//for odd palindrome
+				middleOut(s, i, i, ref result);
+				//for even palindrome
+				middleOut(s, i, i + 1, ref result);
+			}
+
+			return result;
+		}
+
+		private void middleOut(string s, int i, int j, ref int result)
+		{
+			while (i >= 0 && j < s.Length && s[i] == s[j])
+			{
+				result++;
+				i--;
+				j++;
+			}
+
+
+		}
+
+
+
+	}
+
+
+	class Program
+	{
+		static void Main(string[] args)
+		{
+
+			Problem problem = new Problem();
+
+			Console.WriteLine(problem.CountSubstrings("abc"));
+
+		}
+	}
+}

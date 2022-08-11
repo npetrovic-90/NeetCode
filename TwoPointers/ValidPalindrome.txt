@@ -1,0 +1,107 @@
+using System;
+
+namespace CodeInterview
+{
+
+	//	A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward.Alphanumeric characters include letters and numbers.
+
+	//Given a string s, return true if it is a palindrome, or false otherwise.
+
+
+
+	//Example 1:
+
+	//Input: s = "A man, a plan, a canal: Panama"
+	//Output: true
+	//Explanation: "amanaplanacanalpanama" is a palindrome.
+	class Problem
+	{
+
+
+		//Solution
+		//Count the length of each string and append it to a string with some delimiter, for example #;
+
+
+
+		public bool isPalindrome(String s)
+		{
+			//string newStr = "";
+
+			//Console.WriteLine(s);
+			//for (int i = 0; i < s.Length; i++)
+			//{
+			//	if (Char.IsLetter(s[i])) newStr = newStr + Char.ToLower(s[i]);
+
+			//}
+			//Console.WriteLine(newStr);
+
+			//for (int i = 0; i < newStr.Length / 2; i++)
+			//{
+
+			//	if (newStr[i] == newStr[newStr.Length - 1 - i]) continue;
+
+
+			//	else return false;
+			//}
+
+			//return true;
+
+			int i = 0;
+			int j = s.Length - 1;
+
+			while (i <= j)
+			{
+				if (Char.IsLetter(s[i]) && Char.IsLetter(s[j]))
+				{
+
+					if (Char.ToLower(s[i]) == Char.ToLower(s[j]))
+					{
+
+						i++; j--;
+					}
+
+					else return false;
+
+
+				}
+
+				else if (!Char.IsLetter(s[i])) i++;
+
+				else if (!Char.IsLetter(s[j])) j--;
+			}
+
+
+			return true;
+		}
+
+
+
+
+
+	}
+
+
+
+
+
+
+	class Program
+	{
+		static void Main(string[] args)
+		{
+
+
+
+			Problem problem = new Problem();
+
+			Console.WriteLine(problem.isPalindrome("A man, a plan, a canal: Panama"));
+
+
+
+
+
+
+
+		}
+	}
+}

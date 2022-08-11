@@ -1,0 +1,89 @@
+using System;
+using System.Collections.Generic;
+
+namespace CodeInterview
+{
+
+	//	Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
+
+
+
+	//Example 1:
+
+	//Input: n = 3
+	//Output: ["((()))","(()())","(())()","()(())","()()()"]
+
+
+
+
+	//Example 1:
+
+	//Input: tokens = ["2", "1", "+", "3", "*"]
+	//Output: 9
+	//Explanation: ((2 + 1) * 3) = 9
+	class Problem
+	{
+
+
+		//Solution
+		//
+
+
+		private int maxLen = 0;
+		private List<string> result = new List<string>();
+
+
+		public List<string> GenerateParenthesis(int n)
+		{
+
+			maxLen = n;
+			backtrack("", 0, 0);
+
+			return result;
+
+		}
+
+
+		private void backtrack(string str, int opened, int closed)
+		{
+			if (opened == closed && closed == maxLen)
+			{
+				result.Add(str);
+				return;
+			}
+			//recursion
+			if (opened < maxLen)
+			{
+				backtrack(str + "(", opened + 1, closed);
+			}
+
+			if (closed < opened)
+			{
+				backtrack(str + ")", opened, closed + 1);
+			}
+		}
+
+
+
+
+	}
+
+
+	class Program
+	{
+		static void Main(string[] args)
+		{
+
+
+
+			Problem problem = new Problem();
+			IList<string> result = problem.GenerateParenthesis(4);
+
+			foreach (string str in result)
+				Console.WriteLine(str);
+
+
+
+		}
+	}
+}

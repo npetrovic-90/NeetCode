@@ -1,0 +1,79 @@
+using System;
+using System.Collections.Generic;
+
+namespace CodeInterview
+{
+
+	//	Given an array of integers temperatures represents the daily temperatures, return an array answer such that answer[i] is the number of days you have to wait after the ith day to get a warmer temperature.If there is no future day for which this is possible, keep answer[i] == 0 instead.
+
+
+
+	//Example 1:
+
+
+	//Input: temperatures = [73, 74, 75, 71, 69, 72, 76, 73]
+	//Output: [1,1,4,2,1,1,0,0]
+	class Problem
+	{
+
+
+		//Solution
+		//push element,[value,index] pair onto stack if stack is not empty or current  element is smaller than top element on the stack
+		//if condition is satisfied pop current top element from the stack and add difference indexes of current element and top element
+		//to the result.
+
+
+		private int maxLen = 0;
+		private List<string> result = new List<string>();
+
+
+		public int[] DailyTemperatures(int[] temperatures)
+		{
+
+			int n = temperatures.Length;
+			int[] result = new int[n];
+			Stack<int[]> stack = new Stack<int[]>();
+
+			for (int i = 0; i < n; i++)
+			{
+				while (stack.Count != 0 && (stack.Peek()[0] < temperatures[i]))
+				{
+					int[] tmp = stack.Pop();
+					result[tmp[1]] = i - tmp[1];
+
+				}
+
+				stack.Push(new int[] { temperatures[i], i });
+			}
+
+
+			return result;
+
+		}
+
+
+
+
+
+
+
+	}
+
+
+	class Program
+	{
+		static void Main(string[] args)
+		{
+
+
+
+			Problem problem = new Problem();
+			int[] result = problem.DailyTemperatures(new int[] { 73, 74, 75, 71, 69, 72, 76, 73 });
+			foreach (int str in result)
+				Console.Write(str + ",");
+
+
+
+		}
+	}
+}

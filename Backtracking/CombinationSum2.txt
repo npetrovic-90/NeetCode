@@ -1,0 +1,109 @@
+using System;
+using System.Collections.Generic;
+
+namespace CodeInterview
+{
+	//	40. Combination Sum II
+	//Medium
+
+	//6182
+
+	//154
+
+	//Add to List
+
+	//Share
+	//Given a collection of candidate numbers(candidates) and a target number(target), find all unique combinations in candidates where the candidate numbers sum to target.
+
+	//Each number in candidates may only be used once in the combination.
+
+
+	//Note: The solution set must not contain duplicate combinations.
+
+
+
+
+	//Example 1:
+
+
+	//Input: candidates = [10, 1, 2, 7, 6, 1, 5], target = 8
+	//Output: 
+	//[
+	//[1,1,6],
+	//[1,2,5],
+	//[1,7],
+	//[2,6]
+	//]
+
+
+
+
+
+
+
+	class Problem
+	{
+		public List<List<int>> combinationSum2(int[] nums, int target)
+		{
+			List<List<int>> result = new List<List<int>>();
+			List<int> list = new List<int>();
+			Array.Sort(nums);
+			backtrack(result, 0, nums, target, list);
+
+			return result;
+
+
+		}
+
+		private void backtrack(List<List<int>> result, int start, int[] nums, int target, List<int> list)
+		{
+			if (target == 0)
+			{
+				result.Add(new List<int>(list));
+				return;
+			}
+
+			for (int i = start; i < nums.Length && target >= nums[i]; i++)
+			{
+				if (i > start && nums[i] == nums[i - 1])
+					continue;
+
+				list.Add(nums[i]);
+				backtrack(result, i + 1, nums, target - nums[i], list);
+				list.RemoveAt(list.Count - 1);
+			}
+
+		}
+	}
+
+
+
+
+
+	class Program
+	{
+		static void Main(string[] args)
+		{
+
+
+			Problem prob = new Problem();
+
+			List<List<int>> result = prob.combinationSum2(new int[] { 10, 1, 2, 7, 6, 1, 5 }, 8);
+
+			foreach (List<int> list in result)
+			{
+				Console.Write("[");
+				foreach (int num in list)
+					Console.Write(num + ",");
+				Console.Write("]\n");
+			}
+
+
+
+
+
+
+
+		}
+	}
+}

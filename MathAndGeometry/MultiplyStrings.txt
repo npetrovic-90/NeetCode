@@ -1,0 +1,87 @@
+using System;
+using System.Text;
+
+namespace CodeInterview
+{
+	//	43. Multiply Strings
+	//Medium
+
+	//4793
+
+	//1951
+
+	//Add to List
+
+	//Share
+	//Given two non-negative integers num1 and num2 represented as strings, return the product of num1 and num2, also represented as a string.
+
+	//Note: You must not use any built-in BigInteger library or convert the inputs to integer directly.
+
+
+
+	//Example 1:
+
+	//Input: num1 = "2", num2 = "3"
+	//Output: "6"
+
+
+
+	class Problem
+	{
+
+		public string Multiply(string num1, string num2)
+		{
+			int n = num1.Length;
+			int m = num2.Length;
+
+			string tmp = new string('0', n + m);
+
+			StringBuilder result = new StringBuilder(tmp);
+
+
+
+			for (int i = n - 1; i >= 0; i--)
+				for (int j = m - 1; j >= 0; j--)
+				{
+					int sum = (num1[i] - '0') * (num2[j] - '0') + result[i + j + 1] - '0';
+
+					result[i + j + 1] = (char)(sum % 10 + '0');
+					result[i + j] = (char)(result[i + j] + sum / 10);
+				}
+
+
+
+			for (int i = 0; i < n + m; i++)
+			{
+				if (result[i] != '0')
+				{
+					return result.ToString().Substring(i);
+				}
+			}
+
+			return "0";
+		}
+
+
+	}
+
+
+	class Program
+	{
+		static void Main(string[] args)
+		{
+
+
+			Problem prob = new Problem();
+
+			string result = prob.Multiply("123", "456");
+
+
+
+			Console.WriteLine("power is:" + result);
+
+
+		}
+	}
+
+}

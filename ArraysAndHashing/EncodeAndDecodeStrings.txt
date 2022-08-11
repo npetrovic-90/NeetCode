@@ -1,0 +1,111 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace CodeInterview
+{
+
+	//	Design an algorithm to encode a list of strings to a string. The encoded string is then sent over the network and is decoded back to the original list of strings.
+
+	//Please implement encode and decode
+
+	//Example
+	//Example1
+
+	//Input: ["lint","code","love","you"]
+	//Output: ["lint","code","love","you"]
+	//Explanation:
+	//One possible encode method is: "lint:;code:;love:;you"
+	class Problem
+	{
+
+
+		//Solution
+		//Count the length of each string and append it to a string with some delimiter, for example #;
+
+
+
+		public string encode(List<string> strs)
+		{
+			StringBuilder encodedString = new StringBuilder();
+
+			foreach (string str in strs)
+			{
+				int length = str.Length;
+
+				encodedString.Append(length + "#");
+				encodedString.Append(str);
+
+			}
+
+			return encodedString.ToString();
+		}
+
+		public List<string> decode(string str)
+		{
+			List<string> decodedString = new List<string>();
+
+			for (int i = 0; i < str.Length; i++)
+			{
+				string length = "";
+
+				while (str[i] != '#')
+				{
+					length = length + str[i];
+					i++;
+				}
+				int wordLength = Int32.Parse(length);
+				i++;
+
+				string word = "";
+
+				for (int j = i; j < wordLength + i; j++)
+				{
+					word = word + str[j];
+				}
+
+				decodedString.Add(word);
+
+				i = i + wordLength - 1;
+			}
+
+
+			return decodedString;
+		}
+
+
+
+	}
+
+
+
+
+
+
+	class Program
+	{
+		static void Main(string[] args)
+		{
+
+
+
+			Problem problem = new Problem();
+
+			string str = problem.encode(new List<string> { "neet", "code" });
+
+			Console.WriteLine(str);
+
+			List<string> listStr = problem.decode(str);
+
+			foreach (string s in listStr)
+				Console.WriteLine(s);
+
+			problem.decode(str);
+
+
+
+
+
+		}
+	}
+}

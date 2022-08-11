@@ -1,0 +1,63 @@
+using System;
+using System.Collections.Generic;
+
+namespace CodeInterview
+{
+
+	//	Given an integer array nums, return true if any value appears at least twice in the array, and return false if every element is distinct.
+
+
+
+	//Example 1:
+
+	//Input: nums = [1,2,3,1]
+	//	Output: true
+	class Problem
+	{
+
+
+		//Solution
+		//Iterrate through array of nums and add them to HashSet if they already are not in it,
+		//if they are return true, because that element is duplicate
+
+
+		public bool containsDuplicate(int[] nums)
+		{
+			HashSet<int> dict = new HashSet<int>();
+
+
+			for (int i = 0; i < nums.Length; i++)
+			{
+				if (dict.Contains(nums[i])) return true;
+
+				else dict.Add(nums[i]);
+			}
+
+
+			return false;
+
+
+		}
+
+
+	}
+
+
+
+	class Program
+	{
+		static void Main(string[] args)
+		{
+
+
+
+			Problem problem = new Problem();
+
+			Console.WriteLine(problem.containsDuplicate(new[] { 1, 2, 3, 2 }));
+
+
+
+
+		}
+	}
+}

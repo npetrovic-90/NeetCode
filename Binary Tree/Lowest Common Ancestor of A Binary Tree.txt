@@ -1,0 +1,268 @@
+using System;
+using System.Collections.Generic;
+
+namespace CodeInterview
+{
+	//	
+
+
+	class Problem
+	{
+
+	}
+	public class Node
+	{
+		public int value;
+		public Node left;
+		public Node right;
+
+		public Node(int value)
+		{
+			this.value = value;
+			left = null;
+			right = null;
+		}
+	}
+
+	public class BTree
+	{
+		private Node root;
+
+		public BTree()
+		{
+			root = null;
+		}
+
+		public Node getRoot()
+		{
+			return root;
+		}
+		public void setRoot(Node root)
+		{
+			this.root = root;
+		}
+
+		//binary search tree insert
+		public void insert(int value)
+		{
+			root = insertRec(root, value);
+		}
+
+		private Node insertRec(Node root, int value)
+		{
+			Node curr = root;
+			if (curr == null)
+			{
+				curr = new Node(value);
+
+				return curr;
+			}
+			else
+			{
+				if (curr.value >= value)
+				{
+					curr.left = insertRec(curr.left, value);
+				}
+				else
+				{
+					curr.right = insertRec(curr.right, value);
+				}
+			}
+
+			return curr;
+		}
+
+		//inorder traversal
+
+		public void inorder(Node root)
+		{
+			Node curr = root;
+
+			if (curr != null)
+			{
+				inorder(curr.left);
+				Console.Write(curr.value + " ");
+				inorder(curr.right);
+
+			}
+		}
+
+		//preorder
+		public void preorder(Node root)
+		{
+			Node curr = root;
+
+			if (curr != null)
+			{
+				Console.Write(curr.value + " ");
+				preorder(curr.left);
+
+				preorder(curr.right);
+
+			}
+		}
+		//postorder
+		public void postorder(Node root)
+		{
+			Node curr = root;
+
+			if (curr != null)
+			{
+
+				postorder(curr.left);
+
+				postorder(curr.right);
+				Console.Write(curr.value + " ");
+
+			}
+		}
+		//		Given the root of a binary tree, return its maximum depth.
+
+		//A binary tree's maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.
+
+
+
+		//Example 1:
+
+
+		//Input: root = [3,9,20,null,null,15,7]
+		//		Output: 3
+		//height of binary tree
+
+		public int getHeight(Node root)
+		{
+			Node curr = root;
+			if (curr == null) return 0;
+
+			return 1 + Math.Max(getHeight(curr.left), getHeight(curr.right));
+		}
+
+		//inorder iterative
+
+		public void inorderIterative(Node root)
+		{
+			if (root == null) return;
+
+			Node curr = root;
+
+			Stack<Node> stack = new Stack<Node>();
+
+			while (curr != null || stack.Count > 0)
+			{
+				while (curr != null)
+				{
+					stack.Push(curr);
+					curr = curr.left;
+				}
+
+				curr = stack.Pop();
+				Console.Write(curr.value + " ");
+
+				curr = curr.right;
+			}
+		}
+
+		//count nodes in bstree or normal binary tree
+
+		public int countNodes(Node root, int i = 0)
+		{
+			if (root == null) return i;
+			i++;
+			i = countNodes(root.left, i);
+			i = countNodes(root.right, i);
+
+			return i;
+		}
+
+		public int findMaximum(Node root, int max)
+		{
+
+			if (root == null) return max;
+
+			if (root.value > max) max = root.value;
+
+			max = findMaximum(root.left, max);
+			max = findMaximum(root.right, max);
+
+			return max;
+		}
+
+
+		////		Given a binary search tree(BST), find the lowest common ancestor(LCA) of two given nodes in the BST.
+
+		////According to the definition of LCA on Wikipedia: “The lowest common ancestor is defined between two nodes p and q as the lowest node in T that has both p and q as descendants (where we allow a node to be a descendant of itself).”
+
+
+
+		////Example 1:
+
+
+		////Input: root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 8
+		////Output: 6
+		////Explanation: The LCA of nodes 2 and 8 is 6.
+		public Node LowestCommonAncestor(Node root, Node p, Node q)
+		{
+			if (root == null) return null;
+
+			else if (p.value > root.value && q.value > root.value)
+			{
+				return LowestCommonAncestor(root.right, p, q);
+			}
+			else if (p.value < root.value && q.value < root.value)
+			{
+				return LowestCommonAncestor(root.left, p, q);
+			}
+			else
+			{
+				return root;
+			}
+
+		}
+
+
+
+
+	}
+
+	class Program
+	{
+		static void Main(string[] args)
+		{
+
+			BTree bTree = new BTree();
+			BTree bTree2 = new BTree();
+
+			//bTree.setRoot(new Node(1));
+			//bTree.getRoot().left = new Node(41);
+			//bTree.getRoot().right = new Node(21);
+			//bTree.getRoot().left.left = new Node(422);
+			//bTree.getRoot().left.right = new Node(131);
+			//bTree.getRoot().right.left = new Node(81);
+			//bTree.getRoot().right.right = new Node(67);
+
+			bTree.insert(6);
+			bTree.insert(2);
+			bTree.insert(8);
+			bTree.insert(0);
+			bTree.insert(4);
+			bTree.insert(7);
+			bTree.insert(9);
+			bTree.insert(3);
+			bTree.insert(5);
+
+
+
+			bTree.inorder(bTree.getRoot());
+			Console.WriteLine();
+
+			Console.WriteLine(bTree.LowestCommonAncestor(bTree.getRoot(), new Node(2), new Node(5)).value);
+
+
+
+
+
+
+
+		}
+	}
+}

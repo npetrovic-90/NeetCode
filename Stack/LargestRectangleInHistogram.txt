@@ -1,0 +1,94 @@
+using System;
+using System.Collections.Generic;
+
+namespace CodeInterview
+{
+
+	//	Given an array of integers heights representing the histogram's bar height where the width of each bar is 1, return the area of the largest rectangle in the histogram.
+
+
+
+	//Example 1:
+
+
+	//Input: heights = [2,1,5,6,2,3]
+	//	Output: 10
+	//Explanation: The above is a histogram where width of each bar is 1.
+	//The largest rectangle is shown in the red area, which has an area = 10 units.
+	class Problem
+	{
+
+
+		//Solution
+		//make position,speed pairs and sort in reverse order using position
+		//iterate through that newly created data structure and push element to the stack, but first calculate how much until current car reaches target position
+		// (target-position)/speed
+		// compare each time there are 2 elements on the stack if current top element of the stack is smaller than previously pushed element
+		// if thats the case pop it from the stack, if not do not do anything
+		//return length of the stack as result;
+
+
+		private int maxLen = 0;
+		private List<string> result = new List<string>();
+
+
+		public int LargestRectangleArea(int[] heights)
+		{
+			Stack<int[]> stack = new Stack<int[]>();
+			int maxArea = 0;
+
+			for (int i = 0; i < heights.Length; i++)
+			{
+				int start = i;
+				while (stack.Count != 0 && stack.Peek()[1] > heights[i])
+				{
+					int[] curr = stack.Pop();
+					int index = curr[0];
+					int height = curr[1];
+					maxArea = Math.Max(maxArea, height * (i - index));
+					start = index;
+				}
+
+				stack.Push(new int[] { start, heights[i] });
+
+			}
+
+			while (stack.Count != 0)
+			{
+				int[] curr = stack.Pop();
+				int index = curr[0];
+				int height = curr[1];
+				maxArea = Math.Max(maxArea, height * (heights.Length - index));
+			}
+
+			return maxArea;
+
+
+		}
+
+
+
+
+
+
+
+	}
+
+
+	class Program
+	{
+		static void Main(string[] args)
+		{
+
+
+
+			Problem problem = new Problem();
+			int result = problem.LargestRectangleArea(new int[] { 2, 1, 5, 6, 2, 3 });
+
+			Console.WriteLine(result);
+
+
+
+		}
+	}
+}

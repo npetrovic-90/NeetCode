@@ -1,0 +1,84 @@
+using System;
+
+namespace CodeInterview
+{
+
+	//	746. Min Cost Climbing Stairs
+	//Easy
+
+	//7351
+
+	//1190
+
+	//Add to List
+
+	//Share
+	//You are given an integer array cost where cost[i] is the cost of ith step on a staircase.Once you pay the cost, you can either climb one or two steps.
+
+	//You can either start from the step with index 0, or the step with index 1.
+
+	//Return the minimum cost to reach the top of the floor.
+
+
+
+	//Example 1:
+
+	//Input: cost = [10, 15, 20]
+	//Output: 15
+	//Explanation: You will start at index 1.
+	//- Pay 15 and climb two steps to reach the top.
+	//The total cost is 15.
+	class Problem
+	{
+
+
+		//Solution
+		//iterate through array of numbers, count them and add them to hashmap
+		//create new array that has same length as original array and add elements from hashmap to that array
+		//where number of apperances of each number will be value of new array member
+
+
+		public int MinClimbStairs(int[] cost)
+		{
+			int downOne = 0;
+			int downTwo = 0;
+
+
+			for (int i = 2; i <= cost.Length; i++)
+			{
+				int tmp = downOne;
+				downOne = Math.Min(downOne + cost[i - 1], downTwo + cost[i - 2]);
+
+				downTwo = tmp;
+			}
+
+			return downOne;
+		}
+
+
+
+	}
+
+
+
+
+
+
+	class Program
+	{
+		static void Main(string[] args)
+		{
+
+			Problem problem = new Problem();
+
+
+
+			Console.WriteLine(problem.MinClimbStairs(new int[] { 10, 15, 20 }));
+
+
+
+
+
+		}
+	}
+}

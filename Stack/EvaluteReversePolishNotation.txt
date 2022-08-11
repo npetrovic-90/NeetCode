@@ -1,0 +1,102 @@
+using System;
+using System.Collections.Generic;
+
+namespace CodeInterview
+{
+
+	//	Evaluate the value of an arithmetic expression in Reverse Polish Notation.
+
+	//Valid operators are +, -, *, and /. Each operand may be an integer or another expression.
+
+	//Note that division between two integers should truncate toward zero.
+
+	//It is guaranteed that the given RPN expression is always valid. That means the expression would always evaluate to a result, and there will not be any division by zero operation.
+
+
+
+
+	//Example 1:
+
+	//Input: tokens = ["2", "1", "+", "3", "*"]
+	//Output: 9
+	//Explanation: ((2 + 1) * 3) = 9
+	class Problem
+	{
+
+
+		//Solution
+		//add elements to stack until we encounter arithmetic operation, pop  elements from stack and apply arithmetic operation
+		//push result onto stack again and call recursive function again
+		//condition to leave recursion is if i is equal to tokens.length
+
+
+
+
+
+		public int evalRPN(string[] tokens)
+		{
+
+			Stack<int> stack = new Stack<int>();
+
+			return calculate(stack, 0, tokens);
+
+		}
+
+		private int calculate(Stack<int> stack, int i, string[] tokens)
+		{
+			if (i == tokens.Length)
+			{
+				return stack.Pop();
+			}
+
+			string current = tokens[i];
+
+			if (current.Equals("+") || current.Equals("-") || current.Equals("*") || current.Equals("/") && stack.Count >= 2)
+			{
+				int a = stack.Pop();
+				int b = stack.Pop();
+				int c = 0;
+
+				switch (current)
+				{
+					case "+":
+						c = b + a;
+						break;
+					case "-":
+						c = b - a;
+						break;
+					case "*":
+						c = b * a;
+						break;
+					case "/":
+						c = b / a;
+						break;
+				}
+				stack.Push(c);
+			}
+			else
+			{
+				stack.Push(Int32.Parse(current));
+			}
+
+			return calculate(stack, i + 1, tokens);
+		}
+
+	}
+
+
+	class Program
+	{
+		static void Main(string[] args)
+		{
+
+
+
+			Problem problem = new Problem();
+			Console.WriteLine(problem.evalRPN(new string[] { "2", "1", "+", "3", "*" }));
+
+
+
+		}
+	}
+}

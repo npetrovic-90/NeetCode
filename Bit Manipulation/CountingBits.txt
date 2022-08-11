@@ -1,0 +1,82 @@
+using System;
+
+namespace CodeInterview
+{
+
+	//	Given an integer n, return an array ans of length n + 1 such that for each i(0 <= i <= n), ans[i] is the number of 1's in the binary representation of i.
+
+
+
+	//Example 1:
+
+	//Input: n = 2
+	//Output: [0,1,1]
+	//	Explanation:
+	//0 --> 0
+	//1 --> 1
+	//2 --> 10
+	class Problem
+	{
+
+
+		//Solution
+		//Dynamic programming
+		// 0000 basically what we do is to count whenever we enter while function and step is current n AND n-1, why?
+		// 0001	because number repeat numbers from 0 to 3 will repeate in numbers 4 to 7, in their binary representation ofc.
+		// 0010
+		// 0011
+		// 0100
+		// 0101
+		// 0110
+		// 0111
+		public int[] countBits(int n)
+		{
+			int[] ans = new int[n + 1];
+
+			for (int i = 0; i <= n; i++)
+			{
+				ans[i] = count(i);
+			}
+
+			return ans;
+		}
+
+		private int count(int x)
+		{
+			int count = 0;
+
+			while (x != 0)
+			{
+				//step, because binary representation repeats.
+				x = x & x - 1;
+				count++;
+
+				Console.WriteLine("X is:" + x + " Count is:" + count);
+			}
+
+			return count;
+		}
+
+
+	}
+	class Program
+	{
+		static void Main(string[] args)
+		{
+			Problem problem = new Problem();
+
+
+			int[] solution = problem.countBits(5);
+
+			Console.Write("[");
+			foreach (int x in solution)
+				Console.Write(x + ",");
+			Console.Write("]");
+
+
+
+
+
+		}
+	}
+}

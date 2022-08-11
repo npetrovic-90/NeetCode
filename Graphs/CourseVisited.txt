@@ -1,0 +1,121 @@
+using System;
+using System.Collections.Generic;
+
+namespace CodeInterview
+{
+
+	//	207. Course Schedule
+	//Medium
+
+	//10638
+
+	//419
+
+	//Add to List
+
+	//Share
+	//There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai.
+
+	//For example, the pair [0, 1], indicates that to take course 0 you have to first take course 1.
+	//Return true if you can finish all courses.Otherwise, return false.
+
+
+
+
+	//Example 1:
+
+	//Input: numCourses = 2, prerequisites = [[1, 0]]
+	//Output: true
+	//Explanation: There are a total of 2 courses to take.
+	//To take course 1 you should have finished course 0. So it is possible.
+	//Example 2:
+
+	//Input: numCourses = 2, prerequisites = [[1,0],[0,1]]
+	//Output: false
+	//Explanation: There are a total of 2 courses to take.
+	//To take course 1 you should have finished course 0, and to take course 0 you should also have finished course 1. So it is impossible.
+
+	class Problem
+	{
+		public bool CanFinish(int numCourses, int[][] prerequisites)
+		{
+
+
+			Dictionary<int, List<int>> dict = new Dictionary<int, List<int>>();
+
+			for (int i = 0; i < prerequisites.Length; i++)
+			{
+
+
+
+				dict.Add(prerequisites[i][0], new List<int>());
+
+			}
+
+
+			for (int i = 0; i < prerequisites.Length; i++)
+			{
+				dict[prerequisites[i][0]].Add(prerequisites[i][1]);
+
+			}
+
+			HashSet<int> visited = new HashSet<int>();
+
+			for (int course = 0; course < numCourses; course++)
+			{
+				if (dict.ContainsKey(course))
+					if (!dfs(course, dict, visited))
+						return false;
+			}
+
+			return true;
+		}
+
+		private bool dfs(int course, Dictionary<int, List<int>> dict, HashSet<int> visited)
+		{
+			if (visited.Contains(course)) return false;
+
+			if (dict.ContainsKey(course))
+			{
+				if (dict[course].Count == 0)
+					return true;
+			}
+
+			visited.Add(course);
+
+
+
+			for (int i = 0; i < dict[course].Count; i++)
+			{
+				int nextCourse = dict[course][i];
+
+				if (!dfs(nextCourse, dict, visited))
+					return false;
+			}
+			dict[course] = null;
+			visited.Remove(course);
+
+			return true;
+		}
+	}
+
+
+	class Program
+	{
+		static void Main(string[] args)
+		{
+
+			Problem problem = new Problem();
+
+			Console.WriteLine(problem.CanFinish(2, new int[][] {
+			new int[] { 1, 0 }
+
+
+			}));
+
+
+
+
+		}
+	}
+}

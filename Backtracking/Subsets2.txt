@@ -1,0 +1,99 @@
+using System;
+using System.Collections.Generic;
+
+namespace CodeInterview
+{
+	//	90. Subsets II
+	//Medium
+
+	//5944
+
+	//169
+
+	//Add to List
+
+	//Share
+	//Given an integer array nums that may contain duplicates, return all possible subsets(the power set).
+
+	//The solution set must not contain duplicate subsets.Return the solution in any order.
+
+
+
+
+	//Example 1:
+
+	//Input: nums = [1, 2, 2]
+	//Output: [[], [1], [1,2], [1,2,2], [2], [2,2]]
+
+
+
+
+
+
+
+	class Problem
+	{
+		public List<List<int>> subsets2(int[] nums)
+		{
+			List<List<int>> result = new List<List<int>>();
+			List<int> list = new List<int>();
+			Array.Sort(nums);
+			helper(result, 0, nums, list);
+
+			return result;
+
+
+		}
+
+		private void helper(List<List<int>> result, int start, int[] nums, List<int> list)
+		{
+			result.Add(new List<int>(list));
+
+			int j;
+			for (j = start; j < nums.Length; j++)
+			{
+				if (j > start && nums[j] == nums[j - 1])
+					continue;
+
+				list.Add(nums[j]);
+
+				helper(result, j + 1, nums, list);
+
+				list.RemoveAt(list.Count - 1);
+
+			}
+
+
+		}
+
+
+
+	}
+
+	class Program
+	{
+		static void Main(string[] args)
+		{
+
+
+			Problem prob = new Problem();
+
+			List<List<int>> result = prob.subsets2(new int[] { 1, 2, 2 });
+
+			foreach (List<int> list in result)
+			{
+				Console.Write("[");
+				foreach (int num in list)
+					Console.Write(num + ",");
+				Console.Write("]\n");
+			}
+
+
+
+
+
+
+
+		}
+	}
+}
